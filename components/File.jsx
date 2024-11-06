@@ -137,7 +137,7 @@ export default function Component() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="bg-white text-purple-600 hover:bg-purple-500 hover:text-white">
-            Actions
+            Select Download or Upload data
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
