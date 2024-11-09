@@ -1,4 +1,4 @@
-import Component from "@/components/File";
+import Component from "@/components/Form/Form";
 import Image from "next/image";
 
 export default function Home() {
