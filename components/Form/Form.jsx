@@ -23,19 +23,39 @@ const Component = () => {
   const handleSubmit = async (data) => {
     console.log(data);
     setLoading(true);
+
     try {
       const response = await axios.post(
-        "https://ehomeiot.vercel.app/api/devices",
+        "https://ehomeiot.vercel.app/api/add-device",
         data
       );
-      console.log(response.data, "api/devices");
+      console.log("add-device", response.data);
+
       if (response.status === 201) {
         showAlert("Data uploaded successfully!");
         setCurrentPage("main");
       }
     } catch (error) {
+      // Log the full error for debugging
       console.error("Error during upload:", error);
-      showAlert("An error occurred during upload.");
+
+      // Handle specific backend error response
+      if (error.response && error.response.status === 400) {
+        const backendError = error.response.data?.error;
+
+        // Show specific error message if provided
+        if (backendError === "Device with MAC address 'abc' already exists") {
+          showAlert(
+            "Upload failed: A device with this MAC address already exists. Please check the MAC address and try again."
+          );
+        } else {
+          // Generic error message for other 400 errors
+          showAlert("An error occurred: " + backendError || "Bad Request");
+        }
+      } else {
+        // Fallback for other types of errors
+        showAlert("An unexpected error occurred during upload.");
+      }
     } finally {
       setLoading(false);
     }
